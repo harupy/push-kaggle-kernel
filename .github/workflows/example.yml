@@ -7,8 +7,8 @@ on:
     branches:
       - master
 jobs:
-  lint:
-    name: Lint Check
+  upload:
+    name: Upload Kernel
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
         with:
           slug: test-script
           title: test-script
-          code_file: ./examples/main.py
+          code_file: ./examples/kernel.py
           language: python
           kernel_type: script
           is_private: false
