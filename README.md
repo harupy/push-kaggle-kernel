@@ -30,3 +30,19 @@ jobs:
           competition_sources: |
             titanic
 ```
+
+## Inputs
+
+| Name                  | Description                                                  | Required | Default   | Options                        |
+| :-------------------- | :----------------------------------------------------------- | :------- | :-------- | :----------------------------- |
+| `slug`                | Slug of kernel (must be at least five characters).           | true     | -         |                                |
+| `title`               | Title of kernel (must be at least five characters).          | true     | -         |                                |
+| `code_file`           | Path to kernel to push (relative from the repo root).        | true     | -         |                                |
+| `language`            | Language that kernel is written in.                          | true     | -         | `["python", "r", "rmarkdown"]` |
+| `kernel_type`         | Type of kernel.                                              | true     | -         | `["script", "notebook"]`       |
+| `is_private`          | Whether or not kernel should be private.                     | false    | `"true"`  | `["true", "false"]`            |
+| `enable_gpu`          | Whether or not kernel should run on a GPU.                   | false    | `"false"` | `["true", "false"]`            |
+| `enable_internet`     | Whether or not kernel should be able to access the internet. | false    | `"false"` | `["true", "false"]`            |
+| `dataset_sources`     | A list of data sources that kernel should use.               | false    | `""`      |                                |
+| `competition_sources` | A list of competition data sources that kernel should use.   | false    | `""`      |                                |
+| `kernel_sources`      | A list of kernel data sources that kernel should use.        | false    | `""`      |                                |
