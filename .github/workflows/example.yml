@@ -1,0 +1,24 @@
+name: Lint
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+jobs:
+  lint:
+    name: Lint Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: harupy/push-kaggle-kernel@master
+        with:
+          slug: test-script
+          title: test-script
+          code_file: ./examples/main.py
+          language: python
+          kernel_type: script
+          is_private: false
+          competition_sources: |
+            titanic
