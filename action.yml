@@ -1,5 +1,8 @@
 name: Push Kaggle Kernel
 author: harupy
+branding:
+  icon: upload
+  color: green
 description: Push Keggle Kernel
 inputs:
   slug:
