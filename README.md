@@ -2,6 +2,11 @@
 
 GitHub Action to push Kaggle kernel.
 
+## Usage
+
+1. Add `KAGGLE_USERNAME` and `KAGGLE_KEY` as [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) in your repository.
+2. Define your [workflow](https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions).
+
 ## Example
 
 ```yaml
