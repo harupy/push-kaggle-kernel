@@ -1,0 +1,47 @@
+name: Push Kaggle Kernel
+author: harupy
+description: Push Keggle Kernel
+inputs:
+  slug:
+    description: Slug of kernel (must be at least five characters).
+    required: true
+  title:
+    description: Title of kernel (must be at least five characters).
+    required: true
+  code_file:
+    description: Path to kernel to push (relative from the repo root).
+    required: true
+  language:
+    description: Language that kernel is written in. Valid options are ['python', 'r', 'rmarkdown'].
+    required: true
+  kernel_type:
+    description: Type of kernel. Valid options are ['script', 'notebook'].
+    required: true
+  is_private:
+    description: Whether or not kernel should be private.
+    required: false
+    default: 'true'
+  enable_gpu:
+    description: Whether or not kernel should run on a GPU.
+    required: false
+    default: 'false'
+  enable_internet:
+    description: Whether or not kernel should be able to access the internet.
+    required: false
+    default: 'false'
+  dataset_sources:
+    description: A list of data sources that kernel should use. Each dataset is specified as {username}/{dataset-slug}.
+    required: false
+    default: ''
+  competition_sources:
+    description: A list of competition data sources that kernel should use.
+    required: false
+    default: ''
+  kernel_sources:
+    description: A list of kernel data sources that kernel should use. Each dataset is specified as {username}/{kernel-slug}.
+    required: false
+    default: ''
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
