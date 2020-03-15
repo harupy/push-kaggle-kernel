@@ -23,6 +23,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: harupy/push-kaggle-kernel@master
         env:
+          # Do not leak your secrets.
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         with:
@@ -31,6 +32,7 @@ jobs:
           code_file: ./main.py
           language: python
           kernel_type: script
+          # Do not share high-scoring kernels.
           is_private: false
           competition_sources: |
             titanic
