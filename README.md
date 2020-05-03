@@ -4,32 +4,38 @@ GitHub Action to push Kaggle kernel.
 
 ## Usage
 
-1. Add `KAGGLE_USERNAME` and `KAGGLE_KEY` as [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) in your repository.
-2. Define your [workflow](https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions).
+1. Add `KAGGLE_USERNAME` and `KAGGLE_KEY` as [secrets][secrets] in your repository.
+2. Define your [workflow][workflow].
+
+[secrets]: https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+[workflow]: https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
 ## Example
 
 ```yaml
-name: Upload Kernel
+name: Upload
+
 on:
   push:
     branches:
       - master
+
 jobs:
   upload:
-    name: Upload Kernel
+    name: Upload
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+
       - uses: harupy/push-kaggle-kernel@master
         env:
-          # Do not leak your secrets.
+          # Do not leak your credentials.
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         with:
           slug: ${{ github.sha }}
           title: ${{ github.sha }}
-          code_file: ./main.py
+          code_file: ./script.py
           language: python
           kernel_type: script
           # Do not share high-scoring kernels.
