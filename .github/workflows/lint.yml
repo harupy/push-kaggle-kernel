@@ -1,4 +1,5 @@
 name: Lint
+
 on:
   pull_request:
     branches:
@@ -6,19 +7,24 @@ on:
   push:
     branches:
       - master
+
 jobs:
   lint:
-    name: Lint Check
+    name: Lint
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: Set up Python 3.7
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
-      - uses: actions/checkout@v2
+
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
-      - name: Run Lint Check
-        run: |
-          flake8 .
-          black --check .
+
+      - name: flake8
+        run: flake8 .
+
+      - name: black
+        run: black --check .
