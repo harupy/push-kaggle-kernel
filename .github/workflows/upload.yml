@@ -51,5 +51,5 @@ jobs:
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         with:
           metadata_file: ./examples/kernel-metadata-partial.json
-          enable_gpu: true
+          enable_gpu: false
           enable_internet: true
