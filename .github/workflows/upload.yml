@@ -9,22 +9,47 @@ on:
       - master
 
 jobs:
-  upload:
-    name: Upload
+  use-inputs:
+    name: Use inputs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: ./
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         with:
-          id: ${{ secrets.KAGGLE_USERNAME }}/test-script
-          title: test-script
+          id: ${{ secrets.KAGGLE_USERNAME }}/use-inputs
+          title: use-inputs
           code_file: ./examples/kernel.py
           language: python
           kernel_type: script
           is_private: false
           competition_sources: |
             titanic
+
+  use-metadata:
+    name: Use metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        with:
+          metadata_file: ./examples/kernel-metadata.json
+
+  use-both-inputs-and-metadata:
+    name: Use both inputs and metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        with:
+          metadata_file: ./examples/kernel-metadata-partial.json
+          enable_gpu: true
+          enable_internet: true

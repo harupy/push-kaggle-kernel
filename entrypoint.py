@@ -5,7 +5,6 @@ import tempfile
 import subprocess
 import shutil
 from distutils.util import strtobool
-import warnings
 
 
 def read_json(path):
@@ -81,7 +80,7 @@ def parse_action_inputs():
 
     for key, cast in input_schema.items():
         val = get_action_input(key)
-        inputs[key] = None if (val == "") else cast(val)
+        inputs[key] = cast(val)
 
     return inputs
 
@@ -89,18 +88,15 @@ def parse_action_inputs():
 def main():
     action_inputs = parse_action_inputs()
     meta_file = action_inputs.pop("metadata_file")
-    use_meta = meta_file is not None
-    meta = read_json(meta_file) if use_meta else {}
+    use_meta = meta_file != ""
+    meta = read_json(meta_file) if use_meta else action_inputs
 
-    for key, val in action_inputs.items():
-        if val is None:
-            continue
+    if use_meta:
+        for key, val in action_inputs.items():
+            if (val == "") or (key in meta):
+                continue
 
-        # TODO: Add an option to prevent overwriting metadata keys?
-        if key in meta:
-            warnings.warn("Overwrite `{}` in metadata by action input".format(key))
-
-        meta.update({key: val})
+            meta.update({key: val})
 
     code_file = meta["code_file"]
     file_name = os.path.basename(code_file)
