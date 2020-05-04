@@ -6,6 +6,9 @@ branding:
 description: Push Keggle Kernel
 
 inputs:
+  metadata_file:
+    description: "Kernel metadata file."
+    required: false
   id:
     description: "ID of kernel (must have the format: {username}/{slug})."
     required: true

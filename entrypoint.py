@@ -4,6 +4,13 @@ import json
 import tempfile
 import subprocess
 import shutil
+from distutils.util import strtobool
+import warnings
+
+
+def read_json(path):
+    with open(path) as f:
+        return json.load(f)
 
 
 def to_json(data, path):
@@ -37,88 +44,83 @@ def run_command(command, verbose=True):
     return p.returncode
 
 
-def create_kernel_meta(
-    id_,
-    title,
-    code_file,
-    language,
-    kernel_type,
-    is_private,
-    enable_gpu,
-    enable_internet,
-    dataset_sources,
-    competition_sources,
-    kernel_sources,
-):
-    return {
-        "id": id_,
-        "title": title,
-        "code_file": code_file,
-        "language": language,
-        "kernel_type": kernel_type,
-        "is_private": is_private,
-        "enable_gpu": enable_gpu,
-        "enable_internet": enable_internet,
-        "dataset_sources": dataset_sources,
-        "competition_sources": competition_sources,
-        "kernel_sources": kernel_sources,
+def get_action_input(name):
+    # NOTE: When `default` is not given in `action.yml`,
+    # action input value will be "" (empty string).
+    return os.getenv(f"INPUT_{name.upper()}")
+
+
+def to_list(s):
+    return [x for x in s.split("\n") if x.strip() != "" and not x.startswith("#")]
+
+
+def to_bool(s):
+    return strtobool(s) == 1
+
+
+def parse_action_inputs():
+    input_schema = {
+        "metadata_file": str,
+        "id": str,
+        "title": str,
+        "code_file": str,
+        "language": str,
+        "kernel_type": str,
+        "is_private": to_bool,
+        "enable_gpu": to_bool,
+        "enable_internet": to_bool,
+        "dataset_sources": to_list,
+        "competition_sources": to_list,
+        "kernel_sources": to_list,
     }
 
+    inputs = {}
 
-def get_action_input(name, as_list=False):
-    action_input = os.getenv(f"INPUT_{name.upper()}")
-    if as_list:
-        # Ignore empty and comment lines.
-        return [
-            x
-            for x in action_input.split("\n")
-            if x.strip() != "" and not x.startswith("#")
-        ]
+    for key, cast in input_schema.items():
+        val = get_action_input(key)
+        inputs[key] = None if (val == "") else cast(val)
 
-    return action_input
+    return inputs
 
 
 def main():
-    id_ = get_action_input("id")
-    title = get_action_input("title")
-    code_file = get_action_input("code_file")
-    language = get_action_input("language")
-    kernel_type = get_action_input("kernel_type")
-    is_private = get_action_input("is_private")
-    enable_gpu = get_action_input("enable_gpu")
-    enable_internet = get_action_input("enable_internet")
-    dataset_sources = get_action_input("dataset_sources", as_list=True)
-    competition_sources = get_action_input("competition_sources", as_list=True)
-    kernel_sources = get_action_input("kernel_sources", as_list=True)
+    action_inputs = parse_action_inputs()
+    meta_file = action_inputs.pop("metadata_file")
+    use_meta = meta_file is not None
+    meta = read_json(meta_file) if use_meta else {}
 
+    for key, val in action_inputs.items():
+        if val is None:
+            continue
+
+        # TODO: Add an option to prevent overwriting metadata keys?
+        if key in meta:
+            warnings.warn("Overwrite `{}` in metadata by action input".format(key))
+
+        meta.update({key: val})
+
+    code_file = meta["code_file"]
     file_name = os.path.basename(code_file)
 
-    # Create a temporary directory to store required files.
+    if use_meta:
+        # `code_file` is a relative path from the direcotry where `meta_file` exists.
+        meta_dir = os.path.dirname(meta_file)
+        code_file = os.path.join(meta_dir, file_name)
+    else:
+        meta["code_file"] = file_name
+
+    # Create a temporary directory to store metadata and kernel.
     with tempfile.TemporaryDirectory() as tmpdir:
-        kernel_meta = create_kernel_meta(
-            id_,
-            title,
-            file_name,
-            language,
-            kernel_type,
-            is_private,
-            enable_gpu,
-            enable_internet,
-            dataset_sources,
-            competition_sources,
-            kernel_sources,
-        )
+        # Save the kernel metadata.
+        to_json(meta, os.path.join(tmpdir, "kernel-metadata.json"))
 
-        # Save kernel metadata
-        to_json(kernel_meta, os.path.join(tmpdir, "kernel-metadata.json"))
-
-        # Copy the target file to tmpdir.
+        # Copy the target kernel to `tmpdir`.
         dst = os.path.join(tmpdir, file_name)
         shutil.copyfile(code_file, dst)
 
-        # Push the script to Kaggle.
+        # Push the kernel to Kaggle.
         run_command(f"kaggle kernels push -p {tmpdir}")
-        run_command(f"kaggle kernels status {id_}")
+        run_command(f'kaggle kernels status {meta["id"]}')
 
 
 if __name__ == "__main__":
