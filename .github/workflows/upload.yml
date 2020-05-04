@@ -21,7 +21,7 @@ jobs:
         with:
           id: ${{ secrets.KAGGLE_USERNAME }}/use-inputs
           title: use-inputs
-          code_file: ./examples/kernel.py
+          code_file: ./tests/examples/kernel.py
           language: python
           kernel_type: script
           is_private: false
@@ -38,7 +38,7 @@ jobs:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         with:
-          metadata_file: ./examples/kernel-metadata.json
+          metadata_file: ./tests/examples/kernel-metadata.json
 
   use-both-inputs-and-metadata:
     name: Use both inputs and metadata
@@ -50,6 +50,6 @@ jobs:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         with:
-          metadata_file: ./examples/kernel-metadata-partial.json
+          metadata_file: ./tests/examples/kernel-metadata-partial.json
           enable_gpu: false
           enable_internet: true
