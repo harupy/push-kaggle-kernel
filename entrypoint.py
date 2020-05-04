@@ -38,8 +38,7 @@ def run_command(command, verbose=True):
 
 
 def create_kernel_meta(
-    username,
-    slug,
+    id_,
     title,
     code_file,
     language,
@@ -52,7 +51,7 @@ def create_kernel_meta(
     kernel_sources,
 ):
     return {
-        "id": f"{username}/{slug}",
+        "id": id_,
         "title": title,
         "code_file": code_file,
         "language": language,
@@ -80,8 +79,7 @@ def get_action_input(name, as_list=False):
 
 
 def main():
-    username = os.getenv("KAGGLE_USERNAME")
-    slug = get_action_input("slug")
+    id_ = get_action_input("id")
     title = get_action_input("title")
     code_file = get_action_input("code_file")
     language = get_action_input("language")
@@ -98,8 +96,7 @@ def main():
     # Create a temporary directory to store required files.
     with tempfile.TemporaryDirectory() as tmpdir:
         kernel_meta = create_kernel_meta(
-            username,
-            slug,
+            id_,
             title,
             file_name,
             language,
@@ -121,7 +118,7 @@ def main():
 
         # Push the script to Kaggle.
         run_command(f"kaggle kernels push -p {tmpdir}")
-        run_command(f"kaggle kernels status {username}/{slug}")
+        run_command(f"kaggle kernels status {id_}")
 
 
 if __name__ == "__main__":

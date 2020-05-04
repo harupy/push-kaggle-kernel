@@ -4,47 +4,48 @@ branding:
   icon: upload
   color: green
 description: Push Keggle Kernel
+
 inputs:
-  slug:
-    description: Slug of kernel (must be at least five characters).
+  id:
+    description: "ID of kernel (must have the format: {username}/{slug})."
     required: true
   title:
-    description: Title of kernel (must be at least five characters).
+    description: "Title of kernel (must be at least five characters)."
     required: true
   code_file:
-    description: Path to kernel to push (relative from the repo root).
+    description: "Path to kernel to push (relative from the repo root)."
     required: true
   language:
-    description: Language that kernel is written in. Valid options are ['python', 'r', 'rmarkdown'].
+    description: "Language that kernel is written in. Valid options are ['python', 'r', 'rmarkdown']."
     required: true
   kernel_type:
-    description: Type of kernel. Valid options are ['script', 'notebook'].
+    description: "Type of kernel. Valid options are ['script', 'notebook']."
     required: true
   is_private:
-    description: Whether or not kernel should be private.
+    description: "Whether or not kernel should be private."
     required: false
-    default: 'true'
+    default: "true"
   enable_gpu:
-    description: Whether or not kernel should run on a GPU.
+    description: "Whether or not kernel should run on a GPU."
     required: false
-    default: 'false'
+    default: "false"
   enable_internet:
-    description: Whether or not kernel should be able to access the internet.
+    description: "Whether or not kernel should be able to access the internet."
     required: false
-    default: 'false'
+    default: "false"
   dataset_sources:
-    description: A list of data sources that kernel should use. Each dataset is specified as {username}/{dataset-slug}.
+    description: "A list of data sources that kernel should use. Each dataset is specified as {username}/{dataset-slug}."
     required: false
-    default: ''
+    default: ""
   competition_sources:
-    description: A list of competition data sources that kernel should use.
+    description: "A list of competition data sources that kernel should use."
     required: false
-    default: ''
+    default: ""
   kernel_sources:
-    description: A list of kernel data sources that kernel should use. Each dataset is specified as {username}/{kernel-slug}.
+    description: "A list of kernel data sources that kernel should use. Each dataset is specified as {username}/{kernel-slug}."
     required: false
-    default: ''
+    default: ""
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "Dockerfile"

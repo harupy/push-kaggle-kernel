@@ -20,7 +20,7 @@ jobs:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         with:
-          slug: test-script
+          id: ${{ secrets.KAGGLE_USERNAME }}/test-script
           title: test-script
           code_file: ./examples/kernel.py
           language: python
