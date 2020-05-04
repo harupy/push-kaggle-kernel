@@ -23,9 +23,7 @@ def test_input_schema(action_yaml, input_schema):
     assert set(input_schema.keys()) == set(action_yaml["inputs"].keys())
 
 
-def test_input_default_value_does_not_raise_error_when_casting(
-    action_yaml, input_schema
-):
+def test_casting_action_inputs_does_not_fail(action_yaml, input_schema):
     for name, inp in action_yaml["inputs"].items():
         if "default" not in inp:
             continue
