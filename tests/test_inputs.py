@@ -19,7 +19,7 @@ def input_schema():
     return get_input_schema()
 
 
-def test_input_schema(action_yaml, input_schema):
+def test_input_schema_matches_action_yaml(action_yaml, input_schema):
     assert set(input_schema.keys()) == set(action_yaml["inputs"].keys())
 
 
