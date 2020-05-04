@@ -18,7 +18,7 @@ def to_json(data, path):
         json.dump(data, f, indent=2, sort_keys=True)
 
 
-def run_command(command, verbose=True):
+def run_shell(command, verbose=True):
     print("Executing:", command)
     p = subprocess.Popen(
         [command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
@@ -119,8 +119,8 @@ def main():
         shutil.copyfile(code_file, dst)
 
         # Push the kernel to Kaggle.
-        run_command(f"kaggle kernels push -p {tmpdir}")
-        run_command(f'kaggle kernels status {meta["id"]}')
+        run_shell(f"kaggle kernels push -p {tmpdir}")
+        run_shell(f'kaggle kernels status {meta["id"]}')
 
 
 if __name__ == "__main__":
