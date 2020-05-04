@@ -58,8 +58,8 @@ def to_bool(s):
     return strtobool(s) == 1
 
 
-def parse_action_inputs():
-    input_schema = {
+def get_input_schema():
+    return {
         "metadata_file": str,
         "id": str,
         "title": str,
@@ -74,6 +74,9 @@ def parse_action_inputs():
         "kernel_sources": to_list,
     }
 
+
+def parse_action_inputs():
+    input_schema = get_input_schema()
     inputs = {}
 
     for key, cast in input_schema.items():
