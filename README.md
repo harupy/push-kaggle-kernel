@@ -1,6 +1,6 @@
 # Push Kaggle Kernel
 
-GitHub Action to push Kaggle kernel.
+A GitHub Action to push Kaggle kernels.
 
 ## Usage
 
@@ -26,6 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Create a toy python script
+        run: |
+          echo "print('hello world')" > script.py
 
       - uses: harupy/push-kaggle-kernel@master
         env:
