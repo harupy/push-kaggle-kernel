@@ -48,7 +48,7 @@ jobs:
 
 | Name                  | Description                                                  | Required | Default   | Options                        |
 | :-------------------- | :----------------------------------------------------------- | :------- | :-------- | :----------------------------- |
-| `slug`                | Slug of kernel (must be at least five characters).           | true     | -         |                                |
+| `id`                  | ID of kernel (must have the format: {username}/{slug}).      | true     | -         |                                |
 | `title`               | Title of kernel (must be at least five characters).          | true     | -         |                                |
 | `code_file`           | Path to kernel to push (relative from the repo root).        | true     | -         |                                |
 | `language`            | Language that kernel is written in.                          | true     | -         | `["python", "r", "rmarkdown"]` |
