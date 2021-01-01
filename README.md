@@ -33,7 +33,7 @@ jobs:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         with:
-          slug: ${{ github.sha }}
+          id: ${{ secrets.KAGGLE_USERNAME }}/${{ github.sha }}
           title: ${{ github.sha }}
           code_file: ./script.py
           language: python
