@@ -43,6 +43,14 @@ def run_shell(command, verbose=True):
     return p.returncode
 
 
+def is_empty(x):
+    return x.strip() == ""
+
+
+def is_comment(x):
+    return x.lstrip().startswith("#")
+
+
 def get_action_input(name):
     # NOTE: When `default` is not given in `action.yml`,
     # action input value will be "" (empty string).
@@ -50,7 +58,7 @@ def get_action_input(name):
 
 
 def to_list(s):
-    return [x for x in s.split("\n") if x.strip() != "" and not x.startswith("#")]
+    return [x for x in s.strip().split("\n") if not is_empty(x) and not is_comment(x)]
 
 
 def to_bool(s):
@@ -74,8 +82,7 @@ def get_input_schema():
     }
 
 
-def parse_action_inputs():
-    input_schema = get_input_schema()
+def parse_action_inputs(input_schema):
     inputs = {}
 
     for key, cast in input_schema.items():
@@ -86,7 +93,7 @@ def parse_action_inputs():
 
 
 def main():
-    action_inputs = parse_action_inputs()
+    action_inputs = parse_action_inputs(get_input_schema())
     meta_file = action_inputs.pop("metadata_file")
     use_meta = meta_file != ""
     meta = read_json(meta_file) if use_meta else action_inputs
