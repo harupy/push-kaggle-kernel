@@ -12,42 +12,53 @@ inputs:
   id:
     description: "ID of kernel (must have the format: {username}/{slug})."
     required: true
+    type: str
   title:
     description: "Title of kernel (must be at least five characters)."
     required: true
+    type: str
   code_file:
     description: "Path to kernel to push (relative from the repo root)."
     required: true
+    type: str
   language:
     description: "Language that kernel is written in. Valid options are ['python', 'r', 'rmarkdown']."
     required: true
+    type: enum
   kernel_type:
     description: "Type of kernel. Valid options are ['script', 'notebook']."
     required: true
+    type: enum
   is_private:
     description: "Whether or not kernel should be private."
     required: false
     default: "true"
+    type: bool
   enable_gpu:
     description: "Whether or not kernel should run on a GPU."
     required: false
     default: "false"
+    type: bool
   enable_internet:
     description: "Whether or not kernel should be able to access the internet."
     required: false
     default: "false"
+    type: bool
   dataset_sources:
     description: "A list of data sources that kernel should use. Each dataset is specified as {username}/{dataset-slug}."
     required: false
     default: ""
+    type: array
   competition_sources:
     description: "A list of competition data sources that kernel should use."
     required: false
     default: ""
+    type: array
   kernel_sources:
     description: "A list of kernel data sources that kernel should use. Each dataset is specified as {username}/{kernel-slug}."
     required: false
     default: ""
+    type: array
 
 runs:
   using: "docker"
