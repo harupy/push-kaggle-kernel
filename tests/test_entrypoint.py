@@ -1,17 +1,18 @@
-from unittest import mock
 import os
+from unittest import mock
+
 import pytest
 
 from entrypoint import (
-    read_json,
-    to_json,
-    is_comment,
-    run_shell,
-    is_empty,
     get_action_input,
-    to_bool,
-    to_list,
+    is_comment,
+    is_empty,
     parse_action_inputs,
+    read_json,
+    run_shell,
+    to_bool,
+    to_json,
+    to_list,
 )
 
 

@@ -1,9 +1,9 @@
-import os
-import sys
 import json
-import tempfile
-import subprocess
+import os
 import shutil
+import subprocess
+import sys
+import tempfile
 from distutils.util import strtobool
 
 
